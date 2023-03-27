@@ -54,5 +54,18 @@ function renderTodos() {
         li.appendChild(button);
 
         list.appendChild(li);
-    });
+    
+
+
+checkbox.addEventListener("change", function () {
+    todos[index].done = checkbox.checked;
+    sessionStorage.setItem("todos", JSON.stringify(todos));
+
+    if (checkbox.checked) {
+        span.style.textDecoration = "line-through"
+    } else {
+        span.style.textDecoration = "none";
+    }
+});
+});
 }
