@@ -1,14 +1,17 @@
 const input = document.getElementById("input");
-const deadlineInput = document.getElementById("deadline");
 const button = document.getElementById("add");
 
-const todos = JSON.parse(sessionStorage.getItem("todos")) || [];
+const todos = JSON.parse(sessionStorage.getItem("todos")) || [
+    { text: "Get intership in Visma", deadline: "2023-03-29", done: false },
+    { text: "Get grocerys", deadline: "2023-03-27", done: true }
+];
 
 renderTodos();
 
 button.addEventListener("click", function() {
     const todo = input.value.trim();
-    const deadline = deadlineInput.value.trim();
+    const deadline = document.getElementById("deadline").value.trim();
+    
 
     todos.push({ text: todo, deadline: deadline, done:false });
     sessionStorage.setItem("todos", JSON.stringify(todos));
@@ -16,7 +19,7 @@ button.addEventListener("click", function() {
     renderTodos();
 
     input.value = "";
-    deadlineInput.value = "";
+    document.getElementById("deadline").value = "";
 });
 
 function renderTodos() {
