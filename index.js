@@ -4,7 +4,7 @@ const button = document.getElementById("add");
 
 const todos = JSON.parse(sessionStorage.getItem("todos")) || [];
 
-
+renderTodos();
 
 button.addEventListener("click", function() {
     const todo = input.value.trim();
@@ -13,12 +13,46 @@ button.addEventListener("click", function() {
     todos.push({ text: todo, deadline: deadline, done:false });
     sessionStorage.setItem("todos", JSON.stringify(todos));
     
-    
+    renderTodos();
 
     input.value = "";
     deadlineInput.value = "";
 });
 
+function renderTodos() {
+    const list = document.getElementById("list");
+    list.innerHTML = "";
+    todos.forEach(function (todo,index) {
+        
+        const li = document.createElement("li");
+       
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = todo.done;
+        
+        const span = document.createElement("span");
+        span.textContent = todo.text;
+        
+        const deadlineSpan = document.createElement("span");
+        deadlineSpan.textContent = ` (${todo.deadline})`;
+        
+        const button = document.createElement("button");
+        button.textContent = "Delete";
+        button.addEventListener("click", function () {
+            const confirmed = confirm("Are you done with our task?")
+            if (confirmed) {
+            todos.splice(index, 1);
+            sessionStorage.setItem("todos", JSON.stringify(todos));
 
+            renderTodos();
+            }
+        });
 
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(deadlineSpan);
+        li.appendChild(button);
 
+        list.appendChild(li);
+    });
+}
